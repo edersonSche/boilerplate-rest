@@ -6,6 +6,7 @@ const sampleValidator = require('./sample.validator');
 
 const router = express.Router();
 
-router.get('/', samplePermissions.get, sampleValidator.get, sampleController.get);
+router.get('/', samplePermissions.get, sampleController.get);
+router.post('/', samplePermissions.post, sampleValidator.post, sampleController.post);
 
 module.exports = router;

@@ -4,5 +4,12 @@ module.exports = {
       return next({ status: 403 });
     }
     return next();
+  },
+
+  post: (req, res, next) => {
+    if (req.query.permission) {
+      return next({ status: 403 });
+    }
+    return next();
   }
 };
