@@ -1,6 +1,6 @@
 /.vscode
 /node_modules
-/test/coverage
+/tests/coverage
 
 yarn.lock
 package-lock.json
