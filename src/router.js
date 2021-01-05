@@ -1,7 +1,7 @@
 const express = require('express');
 
-// const authMiddleware = require('./middleware/auth');
-// const paginatorMiddleware = require('./middleware/paginator');
+// const authMiddleware = require('./middlewares/auth');
+// const paginatorMiddleware = require('./middlewares/paginator');
 
 const samplesRoutes = require('./modules/sample/samples.routes');
 
