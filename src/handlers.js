@@ -2,7 +2,7 @@ module.exports = {
   notFound: (req, res) => res.status(404).send({ message: `${req.method} ${req.path} not found` }),
 
   error: (error, req, res, next) => {
-    const { status, message } = error;
+    const { status, message, path } = error;
 
     // errors handles by status code
     if (status) {
@@ -15,7 +15,7 @@ module.exports = {
         statusMessage = 'Access denied';
       }
 
-      return res.status(status).send({ message: message || statusMessage });
+      return res.status(status).send({ path, message: message || statusMessage });
     }
 
     // errors not handled

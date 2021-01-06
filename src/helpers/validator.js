@@ -1,10 +1,8 @@
-const { ValidationError, ...yup } = require('yup');
+const yup = require('yup');
 
 module.exports = ({ body = {}, query = {}, params = {}, stripUnknown = false }) => async (req, res, next) => {
   const configs = { body, query, params };
   let path = '';
-
-  req.dto = { body: {}, query: {}, params: {} };
 
   try {
     const paths = Object.keys(configs);
@@ -14,14 +12,15 @@ module.exports = ({ body = {}, query = {}, params = {}, stripUnknown = false }) 
       if (shape) {
         const schema = yup.object().shape(shape);
         const validData = await schema.validate(req[path], { abortEarly: false, stripUnknown });
-        req.dto[path] = validData;
+        req[path] = validData;
       }
     }
+
     return next();
   } catch (error) {
-    if (error instanceof ValidationError) {
+    if (error instanceof yup.ValidationError) {
       const { errors } = error;
-      return res.status(400).send({ message: errors });
+      return next({ status: 400, path, message: errors });
     }
 
     return next(error);
