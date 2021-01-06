@@ -1,5 +1,5 @@
 const yup = require('yup');
-const { NOT_FOUND } = require('../utils/httpStatus');
+const { BAD_REQUEST } = require('../utils/httpStatus');
 
 module.exports = ({ body = {}, query = {}, params = {}, stripUnknown = false }) => async (req, res, next) => {
   const configs = { body, query, params };
@@ -21,7 +21,7 @@ module.exports = ({ body = {}, query = {}, params = {}, stripUnknown = false }) 
   } catch (error) {
     if (error instanceof yup.ValidationError) {
       const { errors } = error;
-      return next({ status: NOT_FOUND, path, message: errors });
+      return next({ status: BAD_REQUEST, path, message: errors });
     }
 
     return next(error);

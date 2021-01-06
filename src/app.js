@@ -1,19 +1,22 @@
 require('dotenv').config({ path: process.env.NODE_ENV === 'test' ? './.test.env' : './.env' });
 
 const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
 
-const handlers = require('./handlers');
+const { errorHandler, notFoundHandler } = require('./middlewares/handlers');
+const modules = require('./module');
 
 const app = express();
 
-app.use(require('cors')());
-app.use(require('helmet')());
+app.use(cors());
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(require('./module'));
+app.use(modules);
 
-app.use(handlers.notFound);
-app.use(handlers.error);
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 module.exports = app;
