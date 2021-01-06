@@ -1,3 +1,5 @@
+const httpStatus = require('./utils/httpStatus');
+
 module.exports = {
   notFound: (req, res) => res.status(404).send({ message: `${req.method} ${req.path} not found` }),
 
@@ -6,20 +8,13 @@ module.exports = {
 
     // errors handles by status code
     if (status) {
-      let statusMessage = '';
-      if (status === 400) {
-        statusMessage = 'Bad request';
-      } else if (status === 401) {
-        statusMessage = 'Unauthorized';
-      } else if (status === 403) {
-        statusMessage = 'Access denied';
-      }
-
-      return res.status(status).send({ path, message: message || statusMessage });
+      const { status: statusCode, message: statusMessage } = httpStatus[status];
+      return res.status(statusCode).send({ path, message: message || statusMessage });
     }
 
     // errors not handled
     console.error(error);
-    return res.status(500).send({ message: 'Internal server error' });
+    const { status: serverCode, message: serverMessage } = httpStatus.SERVER_ERROR;
+    return res.status(serverCode).send({ message: serverMessage });
   }
 };

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { UNAUTHORIZED } = require('../utils/httpStatus');
 
 module.exports = (req, res, next) => {
   const token = req.headers.authorization || '';
@@ -8,6 +9,6 @@ module.exports = (req, res, next) => {
 
     return next();
   } catch (error) {
-    return next({ status: 401, message: 'Invalid token' });
+    return next({ status: UNAUTHORIZED, message: 'Invalid token' });
   }
 };
