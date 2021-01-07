@@ -19,9 +19,12 @@ module.exports = {
     const { status, message, path } = error;
     const { status: statusCode, message: statusMessage } = statusWrapper(status);
 
+    let msg = message || statusMessage;
+
     if (statusCode >= 500) {
       console.error(error);
+      msg = statusMessage;
     }
-    return res.status(statusCode).send({ path, message: message || statusMessage });
+    return res.status(statusCode).send({ path, message: msg });
   }
 };

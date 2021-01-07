@@ -1,21 +1,26 @@
+const { getController, postController, putController, deleteController } = require('../../helpers/controler');
 const sampleService = require('./sample.service');
 
 module.exports = {
-  get: (req, res, next) => {
-    try {
-      return res.send({ message: 'GET SAMPLE' });
-    } catch (error) {
-      return next(error);
-    }
-  },
+  get: getController((req, res, next) => {
+    return { message: 'GET SAMPLE' };
+  }),
 
-  post: (req, res, next) => {
-    try {
-      const sampleDTO = req.body;
-      const data = sampleService.createSample(sampleDTO);
-      return res.status(201).send({ message: 'POST SAMPLE', data });
-    } catch (error) {
-      return next(error);
-    }
-  }
+  post: postController((req, res, next) => {
+    const sampleDTO = req.body;
+    const data = sampleService.createSample(sampleDTO);
+    return { message: 'POST SAMPLE', data };
+  }),
+
+  put: putController((req, res, next) => {
+    const sampleDTO = req.body;
+    const { id } = req.params;
+    sampleService.updateSample(sampleDTO, id);
+  }),
+
+  delete: deleteController((req, res, next) => {
+    const { id } = req.params;
+    sampleService.deleteSample(id);
+  })
+
 };
