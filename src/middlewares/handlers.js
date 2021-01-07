@@ -7,20 +7,21 @@ module.exports = {
   },
 
   errorHandler: (error, req, res, next) => {
-    const { status, message, path } = error;
-
-    // errors handles by status code
-    if (status) {
-      if (typeof status === 'number') {
-        const { status: statusCode, message: statusMessage } = Object.values(httpStatus).find(value => value.status === status);
-        return res.status(statusCode).send({ path, message: message || statusMessage });
+    function statusWrapper (status) {
+      if (!status) {
+        status = SERVER_ERROR;
+      } else if (typeof status === 'number') {
+        status = Object.values(httpStatus).find(value => value.status === status) || SERVER_ERROR;
       }
-      const { status: statusCode, message: statusMessage } = status;
-      return res.status(statusCode).send({ path, message: message || statusMessage });
-    }
+      return status;
+    };
 
-    // errors not handled
-    console.error(error);
-    return res.status(SERVER_ERROR.status).send({ message: message || SERVER_ERROR.message });
+    const { status, message, path } = error;
+    const { status: statusCode, message: statusMessage } = statusWrapper(status);
+
+    if (statusCode >= 500) {
+      console.error(error);
+    }
+    return res.status(statusCode).send({ path, message: message || statusMessage });
   }
 };

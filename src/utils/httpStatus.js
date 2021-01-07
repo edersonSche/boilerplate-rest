@@ -8,7 +8,6 @@ module.exports = {
   BAD_REQUEST: { status: 400, message: 'Bad request' },
   UNAUTHORIZED: { status: 401, message: 'Unauthorized' },
   FORBIDDEN: { status: 403, message: 'Forbidden' },
-  ACCESS_DENIED: { status: 403, message: 'Access denied' },
   NOT_FOUND: { status: 404, message: 'Not found' },
 
   // 500
