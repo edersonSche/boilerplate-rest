@@ -2,11 +2,11 @@ const httpStatus = require('../utils/httpStatus');
 const { SERVER_ERROR, NOT_FOUND } = httpStatus;
 
 module.exports = {
-  notFoundHandler: (req, res) => {
+  notFound: (req, res) => {
     return res.status(NOT_FOUND.status).send({ message: `${req.method} ${req.path} not found` });
   },
 
-  errorHandler: (error, req, res, next) => {
+  errors: (error, req, res, next) => {
     function statusWrapper (status) {
       if (!status) {
         status = SERVER_ERROR;

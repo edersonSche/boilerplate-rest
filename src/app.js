@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const { errorHandler, notFoundHandler } = require('./middlewares/handlers');
+const { errors, notFound } = require('./middlewares/handler');
 const modules = require('./module');
 
 const app = express();
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(modules);
 
-app.use(notFoundHandler);
-app.use(errorHandler);
+app.use(notFound);
+app.use(errors);
 
 module.exports = app;
